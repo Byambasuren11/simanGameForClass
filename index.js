@@ -6,10 +6,10 @@ mainDiv.className = "mainDiv";
 const colors = ["red", "blue", "green", "yellow"];
 
 const sounds = {
-  red: new Audio("sounds/red.mp3"),
-  blue: new Audio("sounds/blue.mp3"),
-  green: new Audio("sounds/green.mp3"),
-  yellow: new Audio("sounds/yellow.mp3"),
+  red: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"),
+  blue: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"),
+  green: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"),
+  yellow: new Audio("https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"),
 };
 
 colors.forEach((color) => {
@@ -64,7 +64,7 @@ function playSequence() {
 // Flash the color on the screen
 function flashColor(color) {
   const button = document.getElementById(color);
-  playSound(color); // Play the sound
+  playSound(color);
   button.style.animation = `ajillah${colors.indexOf(color) + 1} 1s linear`;
   setTimeout(() => {
     button.style.animation = "none";
