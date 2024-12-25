@@ -14,30 +14,72 @@ body {
   display: grid;
   grid-template-columns: auto auto;
   gap: 30px;
+  margin-bottom: 30px;
 }
 button {
   width: 150px;
   height: 150px;
 }
-.red {
+#red {
   background: red;
 }
-.blue {
+#blue {
   background: blue;
 }
-.green {
+#green {
   background: green;
 }
-.yellow {
+#yellow {
   background: yellow;
 }
-.start {
+#startButton {
   width: 150px;
   height: 50px;
-  background: rgb(158, 104, 104);
+  background: rgb(97, 210, 248);
   color: black;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  border: none;
+  font-size: 20px;
+  border-radius: 5px;
+  margin: auto;
+}
+
+@keyframes ajillah1 {
+  from {
+    background-color: red;
+  }
+  to {
+    background-color: rgb(251, 195, 185);
+  }
+}
+
+@keyframes ajillah2 {
+  from {
+    background-color: green;
+  }
+  to {
+    background-color: rgb(183, 237, 183);
+  }
+}
+
+@keyframes ajillah3 {
+  from {
+    background-color: blue;
+  }
+  to {
+    background-color: rgb(202, 202, 243);
+  }
+}
+
+@keyframes ajillah4 {
+  from {
+    background-color: yellow;
+  }
+  to {
+    background-color: rgb(247, 247, 204);
+  }
 }

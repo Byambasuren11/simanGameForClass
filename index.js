@@ -5,19 +5,26 @@ mainDiv.className = "mainDiv";
 
 const colors = ["red", "blue", "green", "yellow"];
 
+const sounds = {
+  red: new Audio("sounds/red.mp3"),
+  blue: new Audio("sounds/blue.mp3"),
+  green: new Audio("sounds/green.mp3"),
+  yellow: new Audio("sounds/yellow.mp3"),
+};
+
 colors.forEach((color) => {
   const button = document.createElement("button");
-  button.className = color;
+  button.id = color;
+  button.className = "colorButton";
   mainDiv.appendChild(button);
 });
 
-const startButton = document.createElement("div");
+const startButton = document.createElement("button");
+startButton.id = "startButton";
 startButton.textContent = "Start Game";
-startButton.addEventListener("click", startGame);
-startButton.className = "start";
 
-mainDiv.appendChild(startButton);
 main.appendChild(mainDiv);
+main.appendChild(startButton);
 
 let sequence = [];
 let playerSequence = [];
@@ -29,41 +36,67 @@ function startGame() {
   level = 0;
   nextLevel();
 }
+
+function playSound(color) {
+  if (sounds[color]) {
+    sounds[color].currentTime = 0; // Reset playback for consecutive presses
+    sounds[color].play();
+  }
+}
+
 function nextLevel() {
   level++;
-  document.getElementById("level").textContent = level;
-  const randomColor = colors[Math.floor(Math.random() * colors.length)];
-  sequence.push(randomColor);
+  playerSequence = [];
+  const nextColor = colors[Math.floor(Math.random() * colors.length)];
+  sequence.push(nextColor);
   playSequence();
 }
 
+// Play the current sequence
 function playSequence() {
   sequence.forEach((color, index) => {
     setTimeout(() => {
-      document.getElementsByClassName(color)[0].classList.add("active");
-      setTimeout(() => {
-        document.getElementsByClassName(color)[0].classList.remove("active");
-      }, 500);
-    }, 1000 * index);
-  });
-
-  let currentIndex = 0;
-  document.addEventListener("keydown", (event) => {
-    const userColor = event.key;
-    if (userColor === sequence[currentIndex]) {
-      currentIndex++;
-      if (currentIndex === sequence.length) {
-        setTimeout(nextLevel, 1000);
-      }
-    } else {
-      gameOver();
-    }
+      flashColor(color);
+    }, (index + 1) * 1000);
   });
 }
 
-function gameOver() {
-  alert("Game Over! Your final score is " + level);
-  startGame();
+// Flash the color on the screen
+function flashColor(color) {
+  const button = document.getElementById(color);
+  playSound(color); // Play the sound
+  button.style.animation = `ajillah${colors.indexOf(color) + 1} 1s linear`;
+  setTimeout(() => {
+    button.style.animation = "none";
+  }, 1000);
 }
 
-startGame();
+// Handle player input
+function handlePlayerInput(color) {
+  playerSequence.push(color);
+  flashColor(color); // This already includes playing the sound
+  checkPlayerInput();
+}
+
+// Check if the player's input is correct
+function checkPlayerInput() {
+  const currentIndex = playerSequence.length - 1;
+
+  if (playerSequence[currentIndex] !== sequence[currentIndex]) {
+    alert("Game Over!"); // Temporary game over handler
+    startGame();
+    return;
+  }
+
+  if (playerSequence.length === sequence.length) {
+    setTimeout(nextLevel, 500);
+  }
+}
+
+startButton.addEventListener("click", startGame);
+
+document.querySelectorAll(".colorButton").forEach((button) => {
+  button.addEventListener("click", () => {
+    handlePlayerInput(button.id);
+  });
+});
